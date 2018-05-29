@@ -1,0 +1,17 @@
+---
+- set_fact:
+    ruby_version: "{{ item }}"
+
+- name: "check installed ruby version {{ ruby_version }}"
+  shell: $SHELL -lc "rbenv versions | grep {{ ruby_version }}"
+  register: ruby_installed
+  ignore_errors: yes
+  check_mode: no
+  become_user: vagrant
+
+- name: "install ruby version {{ ruby_version }}"
+  shell: $SHELL -lc "rbenv install {{ ruby_version }}"
+  when:  ruby_installed.rc != 0
+  become_user: vagrant
+
+

@@ -1,0 +1,67 @@
+---
+- name: install dependencies
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - bzip2
+    - build-essential
+    - libssl1.0-dev
+    - libreadline-dev
+    - zlib1g-dev
+
+- name: install rbenv
+  git:
+    repo: https://github.com/rbenv/rbenv.git
+    dest: ~/.rbenv
+  become_user: vagrant
+
+- name: install ruby-build
+  git:
+    repo: https://github.com/rbenv/ruby-build.git
+    dest: ~/.rbenv/plugins/ruby-build
+  become_user: vagrant
+
+- name: install rbenv-default-gems
+  git:
+    repo: https://github.com/rbenv/rbenv-default-gems.git 
+    dest: ~/.rbenv/plugins/rbenv-default-gems
+  become_user: vagrant
+
+- name: install rbenv gemset plugin
+  git:
+    repo: https://github.com/jamis/rbenv-gemset.git
+    dest: ~/.rbenv/plugins/rbenv-gemset
+  become_user: vagrant
+
+- name: create .bash_profile if it does not exist
+  file:
+    path: ~/.bash_profile
+    state: touch
+  become_user: vagrant
+
+- name: copy default-gems file
+  copy:
+    src: default-gems
+    dest: ~/.rbenv/
+    owner: vagrant
+    group: vagrant
+    mode: 0644
+  become_user: vagrant
+
+- name: add rbenv path
+  lineinfile:
+    dest: ~/.bash_profile
+    state: present
+    line: 'export PATH="$HOME/.rbenv/bin:$PATH"'
+  become_user: vagrant
+
+- name: initialize rbenv
+  lineinfile:
+    dest: ~/.bash_profile
+    state: present
+    line: 'eval "$(rbenv init -)"'
+  become_user: vagrant
+
+- include: install-rubies.yml
+  with_items: "{{ rbenv.versions }}"
+

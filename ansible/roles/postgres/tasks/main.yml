@@ -1,0 +1,26 @@
+---
+- name: add postgres apt key
+  apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+
+- name: add postgres repository
+  apt_repository:
+    repo: deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main
+    filename: pgdg
+
+- name: install postgresql-10
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - postgresql-10
+    - libpq-dev
+    - python-psycopg2
+
+- name: manage postgres users
+  postgresql_user:
+    name: "{{ item.username }}"
+    password: "{{ item.password }}"
+    encrypted: yes
+    role_attr_flags: CREATEDB
+  become_user: postgres
+  with_items: "{{ postgres.users }}"

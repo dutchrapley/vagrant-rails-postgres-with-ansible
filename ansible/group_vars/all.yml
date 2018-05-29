@@ -1,0 +1,7 @@
+postgres:
+  users:
+    - username: vagrant
+      password: vagrant
+rbenv:
+  versions:
+    - 2.5.1

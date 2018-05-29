@@ -1,0 +1,11 @@
+---
+- name: install nodejs
+  apt:
+    name: nodejs
+
+- name: create projects folder with ruby-version 2.5.1
+  lineinfile:
+    path: /vagrant/projects/.ruby-version
+    line: 2.5.1
+    create: yes
+  become_user: vagrant
