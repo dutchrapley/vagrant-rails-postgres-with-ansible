@@ -24,7 +24,7 @@ This project makes the assumptions that you have [Vagrant](https://www.vagrantup
 
 By now, you should have a Ruby on Rails application running port 3000. The magic happens because we told vagrant to map the VM's port 3000 to your computer's port 3000. If you have something else running on port 3000, then you might have a conflict. If you want to fire up your application on a different port, you'll need to add the mapping to the Vagrantfile and then run `vagrant reload`.
 
-The VM that is created is based on Ubuntu 18.04 pulled from [Ubuntu Cloud Images](https://cloud-images.ubuntu.com/). [rbenv](https://github.com/rbenv/rbenv) is setup and by default ruby 2.5.1 is installed. The gems for the most recent versiosn of bundlder and rails are installed by default.
+The VM that is created is based on Ubuntu 18.04 pulled from [Ubuntu Cloud Images](https://cloud-images.ubuntu.com/). [rbenv](https://github.com/rbenv/rbenv) is setup and by default ruby 2.5.1 is installed. The gems for the most recent versions of bundler and rails are installed by default.
 
 Once you have run vagrant ssh and are inside the VM, you can go to /vagrant/projects/your_project and run `rake db:create` and/or `rake db:migrate`. This works flawlessly as the vagrant user is set up with CREATEDB rights to the database server that is running locally on the VM.
 
